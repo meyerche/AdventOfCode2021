@@ -6,9 +6,11 @@ import java.util.ListIterator;
 import java.util.stream.Collectors;
 
 public class day01 {
+    public static int globalCount = 0;
+
     public static void main(String[] args) {
 
-        InputStream is = day01.class.getClassLoader().getResourceAsStream("day01_inputs.txt");
+        InputStream is = day01.class.getClassLoader().getResourceAsStream("day01_input.txt");
         if (is == null) throw new AssertionError();
         BufferedReader reader = new BufferedReader(new InputStreamReader(is));
 
@@ -17,6 +19,10 @@ public class day01 {
         Integer count = countIncreases(in);
         Integer count2 = countIncreasesByThree(in);
         System.out.println(count + " " + count2);
+
+        //try new aggregate function with stream
+        in.stream().reduce(day01::nextIncrease);
+        System.out.println("Functional count:  " + globalCount);
 
     }
 
@@ -65,5 +71,13 @@ public class day01 {
         }
 
         return count;
+    }
+
+    private static int nextIncrease(int aggregate, int nextNumber) {
+        if (nextNumber > aggregate) {
+            globalCount++;
+        }
+
+        return nextNumber;
     }
 }
