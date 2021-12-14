@@ -21,6 +21,7 @@ public class day14 {
         monomerCounts = new HashMap<>();
         monomerPairs = new HashMap<>();
 
+        //initialize the template, count number of monomers at the start, and count the pairs of monomers
         String template = scanner.nextLine();
         Arrays.stream(template.split("")).forEach(m -> monomerCounts.merge(m, 1L, Long::sum));
         IntStream.range(0,template.length()-1)
@@ -29,6 +30,7 @@ public class day14 {
                         1L,
                         Long::sum));
 
+        //get the monomer addition rules into the hash set
         while (scanner.hasNext()) {
             String insertionRule = scanner.nextLine();
 
@@ -39,10 +41,6 @@ public class day14 {
             }
         }
 
-        //System.out.println(template);
-        //System.out.println(rules);
-
-
         //part 1....
         //String polymer = Polymerize(template);
         //int mostCommon = FindMonomer(polymer, "max");
@@ -50,10 +48,16 @@ public class day14 {
 
         //System.out.println(mostCommon - leastCommon);
 
+        // *****Method above worked but was too slow for part2
+
+
         //part 2 ...
+        //Instead of building long strings of monomers, just keep track of the number of pairs
         PolymerizeInSitu();
+
         Long mostCommon = monomerCounts.entrySet().stream().max(Map.Entry.comparingByValue()).get().getValue();
         Long leastCommon = monomerCounts.entrySet().stream().min(Map.Entry.comparingByValue()).get().getValue();
+
         System.out.println(mostCommon - leastCommon);
 
 
@@ -66,7 +70,6 @@ public class day14 {
 
         for (int i = 0; i < STEPS; i++) {
             HashMap<List<String>, Long> pairsAtStep = new HashMap<>();  //create temporary map
-            stepSum = monomerCounts.entrySet().stream().map(x -> x.getValue()).reduce(0L, Long::sum);
 
             for (Map.Entry<List<String>, Long> p : monomerPairs.entrySet()) {
                 newMonomer = rules.get(p.getKey());
@@ -78,8 +81,6 @@ public class day14 {
 
             monomerPairs = pairsAtStep;
         }
-
-
     }
 
     private static int FindMonomer(String polymer, String maxOrMin) {
@@ -97,14 +98,7 @@ public class day14 {
         }
 
         return result;
-
     }
-
-//    private static int FindMonomer(String polymer) {
-//        List<String> monomerList = Arrays.asList(polymer.split(""));
-//        HashMap<String, Integer> freq = new HashMap<>();
-//        Integer res = monomerList.stream().map(m -> freq.put(m, Collections.frequency(monomerList, m))).reduce(0, Integer::max);
-//    }
 
     private static String Polymerize(String template) {
         List<String> templateList = Arrays.stream(template.split("")).collect(Collectors.toList());
@@ -121,6 +115,6 @@ public class day14 {
                     });
         }
 
-        return templateList.stream().collect(Collectors.joining(""));
+        return String.join("", templateList);
     }
 }
