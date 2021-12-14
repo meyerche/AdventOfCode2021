@@ -11,4 +11,9 @@
       </profile>
     </annotationProcessing>
   </component>
+  <component name="JavacSettings">
+    <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="AdventOfCode" options="--add-exports java.xml/jdk.xml.internal=ALL-UNNAMED" />
+    </option>
+  </component>
 </project>
