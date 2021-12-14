@@ -21,8 +21,8 @@ public class day13 {
                 .collect(Collectors.toCollection(ArrayDeque::new));
 
         //Part 1:  do one fold
-        //Fold(dots, folds);
-        //System.out.println(dots.size());
+        Fold(dots, folds);
+        System.out.println(dots.size());
 
         //Part 2:  do all folds and then print result
         FoldAll(dots, folds);
@@ -35,16 +35,19 @@ public class day13 {
         int ymax = dots.stream().map(y -> y.get(1)).max(Integer::compare).get();
         List<Integer> point;
 
-        for (int i = 0; i <= xmax; i++) {
-            for (int j = 0; j <= ymax; j++) {
+        for (int j = 0; j <= ymax; j++) {
+            for (int i = 0; i <= xmax; i++) {
                 point = new ArrayList<>();
                 point.add(i);
                 point.add(j);
+
+                if (i % 5 == 0) System.out.print("  ");  //separate letters
 
                 if (dots.contains(point)) {
                     System.out.print("#");
                 }
                 else System.out.print(".");
+
             }
             System.out.println();
         }
@@ -54,7 +57,6 @@ public class day13 {
     private static void FoldAll(HashSet<List<Integer>> dots, Deque<String> folds) {
         while (!folds.isEmpty()) {
             Fold(dots, folds);
-            if (folds.size() == 1) PrintDots(dots);
         }
     }
 
@@ -69,8 +71,6 @@ public class day13 {
             dots.remove(d);
             dots.add(TranslateDot(d, axis, foldLine));
         });
-
-        //return dots.size();
     }
 
     private static List<Integer> TranslateDot(List<Integer> dot, String axis, int foldLine) {
@@ -90,6 +90,7 @@ public class day13 {
     }
 
     private static List<Integer> CoordToList(String s) {
-        return Arrays.stream(s.split(",")).map(Integer::parseInt).collect(Collectors.toList());
+        List<Integer> collect = Arrays.stream(s.split(",")).map(Integer::parseInt).collect(Collectors.toList());
+        return collect;
     }
 }
