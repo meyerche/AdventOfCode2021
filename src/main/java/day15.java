@@ -10,8 +10,7 @@ public class day15 {
     public static HashSet<List<Integer>> visited;
     public static int[] dx = {1, 0, -1, 0};
     public static int[] dy = {0, 1, 0, -1};
-    private static Comparator<List<Integer>> PriorityComparator;
-    private static int DATA_SIZE = 10;
+    private static int DATA_SIZE;
 
     public static void main(String[] args) {
         List<String> data = loadInputFile.ReadFileString("day15_input.txt");
@@ -51,7 +50,7 @@ public class day15 {
     }
 
     private static void FindPath(List<Integer> start) {
-        riskTot.put(start, 0);  //starting point risk
+        riskTot.put(start, 0);  //starting point risk is not counted
 
         PriorityQueue<List<Integer>> prQueue = new PriorityQueue<>(1, new PriorityComparator());
 
@@ -100,6 +99,4 @@ public class day15 {
             return riskTot.get(o1).compareTo(riskTot.get(o2));
         }
     }
-
-    //442 - high
 }
